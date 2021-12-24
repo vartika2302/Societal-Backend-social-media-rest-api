@@ -26,7 +26,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-
 //delete user
 router.delete("/:id", async (req, res) => {
   if (req.body.userId === req.params.id || req.body.isAdmin) {
@@ -41,9 +40,16 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-
 //get a user
-
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { password, updatedAt, ...other } = user._doc;
+    res.status(200).json(other);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
 //get all users
 //follow a user
